@@ -1,82 +1,166 @@
+/* UNIX man page theme (plain system monospace font) */
+
+:root {
+    --bg:      #ffffff;
+    --fg:      #1a1a1a;
+    --bright:  #000000;
+    --dim:      #666666;
+    --link:     #0000cc;
+    --visited:  #551a8b;
+    --indent:  7ch;     /* man's default body indent */
+}
+
 body {
-    font-family: Courier New;
-    background-color: #c0c0c0;
-    color: #1a1a1a;
+    font-family: ui-monospace, "DejaVu Sans Mono", Menlo, Consolas,
+                 "Liberation Mono", monospace;
+    font-size: 14px;
+    line-height: 16px;
+    background-color: var(--bg);
+    color: var(--fg);
     margin: 0;
-    padding: 20px;
+    padding: 16px 12px;
 }
 
 #content {
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: #ffffff;
-    border: 2px solid;
-    border-color: #ffffff #808080 #808080 #ffffff;   /* raised Win95/Netscape bevel */
-    padding: 20px 30px;
+    width: 80ch;          /* exactly 80 columns, like a classic terminal */
+    max-width: 100%;      /* shrink on narrow screens instead of overflowing */
+    margin: 0 auto;       /* centre the block; text inside stays left-aligned */
 }
 
-h1 {
-    margin-top: 40px;
-    margin-bottom: 40px;
-    color: #000080;
-    letter-spacing: 2px;
+::selection {
+    background: var(--fg);
+    color: var(--bg);
 }
 
-h1::before {
-    content: "> ";           /* delete this block for a cleaner homepage look */
-    color: #808080;
+/* ---- header and footer lines ------------------------------------- */
+
+h1.man-head,
+pre.man-foot {
+    font: inherit;
+    font-weight: normal;
+    color: var(--dim);
+    margin: 0 0 16px;
+    white-space: pre;
+    overflow: hidden;
 }
 
-a:link    { color: #0000cc; text-decoration: underline; }
-a:visited { color: #551a8b; text-decoration: underline; }
-a:hover   { color: #ffffff; background: #000080; }
-
-b {
-    color: #000080;
+pre.man-foot {
+    margin-top: 16px;
 }
 
-p.paragraph {
-    text-align: justify;
-    text-justify: inter-word;
+/* ---- sections ----------------------------------------------------- */
+
+h2 {
+    font-size: inherit;
+    font-weight: bold;
+    color: var(--bright);
+    margin: 0;
 }
 
-p.text-section {
-    margin-left: 40px;
+section > :not(h2) {
+    margin-left: var(--indent);
+}
+
+p, ul {
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+section > p:last-child,
+section > ul:last-child {
+    margin-bottom: 16px;
 }
 
 p.email {
-    margin-left: 40px;
-    font-size: 90%;
-    color: #555555;
+    color: var(--dim);
 }
 
-p.copyright {
-    text-align: center;
-    font-size: 80%;
-    margin-top: 60px;
-    margin-bottom: 10px;
-    color: #666666;
-    border-top: 1px solid #cccccc;
-    padding-top: 10px;
+b {
+    font-weight: bold;
+    color: var(--bright);
 }
+
+em, i {
+    font-style: normal;     /* underline instead of italics, as in man */
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* ---- lists ------------------------------------------------------- */
 
 ul {
-    list-style-type: square;
-    margin-top: 0;
-    padding-left: 40px;
+    list-style: none;
+    padding-left: 0;
 }
 
-.nav-links {
-    margin-left: 40px;
-    line-height: 2;
+li {
+    padding-left: 2ch;
+    text-indent: -2ch;
 }
 
-.nav-links a::before {
-    content: "[ ";
-    color: #808080;
+/* ---- option lists (tag on its own line, description indented) ---- */
+
+dl.opts {
+    margin: 0 0 16px;
 }
 
-.nav-links a::after {
-    content: " ]";
-    color: #808080;
+dl.opts dt {
+    margin: 0;
+}
+
+dl.opts dd {
+    margin: 0 0 16px 7ch;
+}
+
+dd > dl.opts {
+    margin-top: 16px;
+}
+
+dd > dl.opts > dd:last-child {
+    margin-bottom: 0;
+}
+
+dl.opts dt a {
+    color: inherit;
+}
+
+dl.opts dt a:link    { color: var(--link); }
+dl.opts dt a:visited { color: var(--visited); }
+
+/* ---- links ------------------------------------------------------- */
+
+a:link    { color: var(--link);    text-decoration: none; }
+a:visited { color: var(--visited); text-decoration: none; }
+
+a:hover,
+a:focus-visible {
+    color: var(--bg);
+    background: var(--fg);   /* reverse video, like a selected item */
+    outline: none;
+}
+
+a b {
+    color: inherit;
+}
+
+section:target > h2 {
+    background: var(--fg);   /* reverse video on the section you jumped to */
+    color: var(--bg);
+    display: inline-block;
+}
+
+/* ---- pager: (END) ------------------------------------------------ */
+
+p.pager {
+    margin: 0;
+}
+
+.end {
+    background: var(--fg);
+    color: var(--bg);
+}
+
+@media (max-width: 520px) {
+    body { padding: 10px 8px; }
+    :root { --indent: 3ch; }
 }
